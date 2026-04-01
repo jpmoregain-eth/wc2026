@@ -1,0 +1,28 @@
+export const GROUPS = {
+  A:{teams:["Mexico","South Africa","South Korea","Czechia"]},
+  B:{teams:["Canada","Bosnia & Herzegovina","Qatar","Switzerland"]},
+  C:{teams:["Brazil","Morocco","Haiti","Scotland"]},
+  D:{teams:["USA","Paraguay","Australia","Turkey"]},
+  E:{teams:["Germany","Curaçao","Ivory Coast","Ecuador"]},
+  F:{teams:["Netherlands","Japan","Sweden","Tunisia"]},
+  G:{teams:["Belgium","Egypt","Iran","New Zealand"]},
+  H:{teams:["Spain","Cape Verde","Saudi Arabia","Uruguay"]},
+  I:{teams:["France","Senegal","Iraq","Norway"]},
+  J:{teams:["Argentina","Algeria","Austria","Jordan"]},
+  K:{teams:["Portugal","DR Congo","Uzbekistan","Colombia"]},
+  L:{teams:["England","Croatia","Ghana","Panama"]},
+}
+export const FLAG_EMOJI = {
+  "Mexico":"🇲🇽","South Africa":"🇿🇦","South Korea":"🇰🇷","Czechia":"🇨🇿",
+  "Canada":"🇨🇦","Bosnia & Herzegovina":"🇧🇦","Qatar":"🇶🇦","Switzerland":"🇨🇭",
+  "Brazil":"🇧🇷","Morocco":"🇲🇦","Haiti":"🇭🇹","Scotland":"🏴󠁧󠁢󠁳󠁣󠁴󠁿",
+  "USA":"🇺🇸","Paraguay":"🇵🇾","Australia":"🇦🇺","Turkey":"🇹🇷",
+  "Germany":"🇩🇪","Curaçao":"🇨🇼","Ivory Coast":"🇨🇮","Ecuador":"🇪🇨",
+  "Netherlands":"🇳🇱","Japan":"🇯🇵","Sweden":"🇸🇪","Tunisia":"🇹🇳",
+  "Belgium":"🇧🇪","Egypt":"🇪🇬","Iran":"🇮🇷","New Zealand":"🇳🇿",
+  "Spain":"🇪🇸","Cape Verde":"🇨🇻","Saudi Arabia":"🇸🇦","Uruguay":"🇺🇾",
+  "France":"🇫🇷","Senegal":"🇸🇳","Iraq":"🇮🇶","Norway":"🇳🇴",
+  "Argentina":"🇦🇷","Algeria":"🇩🇿","Austria":"🇦🇹","Jordan":"🇯🇴",
+  "Portugal":"🇵🇹","DR Congo":"🇨🇩","Uzbekistan":"🇺🇿","Colombia":"🇨🇴",
+  "England":"🏴󠁧󠁢󠁥󠁮󠁧󠁿","Croatia":"🇭🇷","Ghana":"🇬🇭","Panama":"🇵🇦",
+}
