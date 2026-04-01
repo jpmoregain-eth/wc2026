@@ -2,6 +2,7 @@ import { Link, useLocation } from 'react-router-dom'
 const links = [
   {to:"/",label:"Home"},{to:"/groups",label:"Groups"},
   {to:"/bracket",label:"Bracket"},{to:"/players",label:"Players"},
+  { to: "/about", label: "About" },
 ]
 export default function Navbar() {
   const { pathname } = useLocation()
