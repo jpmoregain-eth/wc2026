@@ -16,13 +16,11 @@ const NATION_NAMES = {
 }
 
 const SORT_OPTIONS = [
-  { value: "goals",               label: "Goals" },
-  { value: "assists",             label: "Assists" },
-  { value: "shots",               label: "Shots" },
-  { value: "shots_on_target",     label: "Shots on Target" },
-  { value: "key_passes",          label: "Key Passes" },
-  { value: "carries_final_third", label: "Carries into Final Third" },
-  { value: "minutes",             label: "Minutes" },
+  { value: "goals",           label: "Goals" },
+  { value: "assists",         label: "Assists" },
+  { value: "shots",           label: "Shots" },
+  { value: "shots_on_target", label: "Shots on Target" },
+  { value: "minutes",         label: "Minutes" },
 ]
 
 const PER = 50
@@ -39,7 +37,7 @@ export default function Players() {
     setLoading(true)
     let q = supabase
       .from("wc2026_players")
-      .select("player,nation,squad,position,minutes,goals,assists,shots,shots_on_target,key_passes,carries_final_third")
+      .select("player,nation,squad,position,minutes,goals,assists,shots,shots_on_target")
       .order(sortBy, { ascending: false })
       .range(page * PER, (page + 1) * PER - 1)
 
@@ -82,14 +80,7 @@ export default function Players() {
         </select>
       </div>
 
-      {/* Stat legend */}
-      <div className="flex flex-wrap gap-3 mb-4 text-xs text-slate-500">
-        <span><span className="text-slate-300 font-medium">Sh</span> = Shots</span>
-        <span><span className="text-slate-300 font-medium">SoT</span> = Shots on Target</span>
-        <span><span className="text-slate-300 font-medium">KP</span> = Key Passes</span>
-        <span><span className="text-slate-300 font-medium">C1/3</span> = Carries into Final Third</span>
-        <span className="text-slate-600">· Shots/SoT available for Big 5 leagues only</span>
-      </div>
+      {/* Table */}
 
       {loading ? (
         <div className="text-center py-20 text-slate-400">Loading...</div>
@@ -109,8 +100,6 @@ export default function Players() {
                   <th className="px-3 py-3">Ast</th>
                   <th className="px-3 py-3">Sh</th>
                   <th className="px-3 py-3">SoT</th>
-                  <th className="px-3 py-3">KP</th>
-                  <th className="px-3 py-3">C1/3</th>
                 </tr>
               </thead>
               <tbody>
@@ -130,8 +119,6 @@ export default function Players() {
                     <td className="px-3 py-2.5 text-center text-slate-300">{fmt(p.assists)}</td>
                     <td className="px-3 py-2.5 text-center text-slate-300">{fmt(p.shots)}</td>
                     <td className="px-3 py-2.5 text-center text-slate-300">{fmt(p.shots_on_target)}</td>
-                    <td className="px-3 py-2.5 text-center text-slate-300">{fmt(p.key_passes)}</td>
-                    <td className="px-3 py-2.5 text-center text-slate-300">{fmt(p.carries_final_third)}</td>
                   </tr>
                 ))}
               </tbody>
