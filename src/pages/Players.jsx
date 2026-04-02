@@ -18,6 +18,8 @@ const NATION_NAMES = {
 const SORT_OPTIONS = [
   { value: "goals",           label: "Goals" },
   { value: "assists",         label: "Assists" },
+  { value: "xg",              label: "xG" },
+  { value: "xa",              label: "xA" },
   { value: "shots",           label: "Shots" },
   { value: "shots_on_target", label: "Shots on Target" },
   { value: "minutes",         label: "Minutes" },
@@ -37,7 +39,7 @@ export default function Players() {
     setLoading(true)
     let q = supabase
       .from("wc2026_players")
-      .select("player,nation,squad,position,minutes,goals,assists,shots,shots_on_target")
+      .select("player,nation,squad,position,minutes,goals,assists,xg,xa,shots,shots_on_target")
       .order(sortBy, { ascending: false })
       .range(page * PER, (page + 1) * PER - 1)
 
@@ -98,6 +100,8 @@ export default function Players() {
                   <th className="px-3 py-3">Min</th>
                   <th className="px-3 py-3">Gls</th>
                   <th className="px-3 py-3">Ast</th>
+                  <th className="px-3 py-3">xG</th>
+                  <th className="px-3 py-3">xA</th>
                   <th className="px-3 py-3">Sh</th>
                   <th className="px-3 py-3">SoT</th>
                 </tr>
@@ -117,6 +121,8 @@ export default function Players() {
                     <td className="px-3 py-2.5 text-center text-slate-300 text-xs">{fmt(p.minutes)}</td>
                     <td className="px-3 py-2.5 text-center text-white font-bold">{fmt(p.goals)}</td>
                     <td className="px-3 py-2.5 text-center text-slate-300">{fmt(p.assists)}</td>
+                    <td className="px-3 py-2.5 text-center text-yellow-400 font-semibold">{fmt(p.xg, 1)}</td>
+                    <td className="px-3 py-2.5 text-center text-slate-300">{fmt(p.xa, 1)}</td>
                     <td className="px-3 py-2.5 text-center text-slate-300">{fmt(p.shots)}</td>
                     <td className="px-3 py-2.5 text-center text-slate-300">{fmt(p.shots_on_target)}</td>
                   </tr>
