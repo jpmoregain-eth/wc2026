@@ -7,6 +7,7 @@ import Players from './pages/Players'
 import Privacy from './pages/Privacy'
 import About from './pages/About'
 import Predictions from './pages/Predictions'
+import Schedule from './pages/Schedule'
 export default function App() {
   return (
     <BrowserRouter>
@@ -19,6 +20,7 @@ export default function App() {
 	<Route path="/privacy" element={<Privacy />} />
 	<Route path="/about" element={<About />} />
 	<Route path="/predictions" element={<Predictions />} />
+	<Route path="/schedule" element={<Schedule />} />
       </Routes>
 	<footer className="text-center py-6 text-slate-600 text-xs border-t border-white/5 mt-10">
   <a href="/privacy" className="hover:text-slate-400">Privacy Policy</a>

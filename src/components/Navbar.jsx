@@ -4,6 +4,7 @@ const links = [
   {to:"/bracket",label:"Bracket"},{to:"/players",label:"Players"},
   { to: "/about", label: "About" },
   { to: "/predictions", label: "Predictions" },
+  { to: "/schedule", label: "Schedule" },
 ]
 export default function Navbar() {
   const { pathname } = useLocation()
