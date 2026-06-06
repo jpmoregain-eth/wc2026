@@ -1,0 +1,35 @@
+name: Update WC2026 Squads & Predictions
+
+on:
+  workflow_dispatch:  # Manual trigger
+  schedule:
+    - cron: '0 6 * * *'  # Daily at 6am UTC during tournament
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests beautifulsoup4 supabase pandas
+
+      - name: Run squad scraper & score calculator
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+        run: python scripts/update_squads.py
+
+      - name: Commit updated prediction data
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add src/data/prediction_data.json src/data/squads.json
+          git diff --staged --quiet || git commit -m "Auto-update: squads and predictions $(date -u '+%Y-%m-%d')"
+          git push
