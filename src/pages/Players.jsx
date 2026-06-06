@@ -40,6 +40,7 @@ export default function Players() {
     let q = supabase
       .from("wc2026_players")
       .select("player,nation,squad,position,minutes,goals,assists,xg,xa,shots,shots_on_target")
+      .eq("in_squad", true)
       .order(sortBy, { ascending: false })
       .range(page * PER, (page + 1) * PER - 1)
 
@@ -57,7 +58,7 @@ export default function Players() {
   return (
     <div className="max-w-6xl mx-auto px-4 py-10">
       <h1 className="text-3xl font-extrabold text-white mb-2">Player Stats</h1>
-      <p className="text-slate-400 mb-6">2025–26 club season · WC 2026 nations only</p>
+      <p className="text-slate-400 mb-6">2025–26 club season · Confirmed WC 2026 squads only</p>
 
       {/* Filters */}
       <div className="flex flex-wrap gap-3 mb-6">
