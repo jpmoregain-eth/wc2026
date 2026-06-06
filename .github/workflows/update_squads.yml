@@ -1,9 +1,12 @@
 name: Update WC2026 Squads & Predictions
 
 on:
-  workflow_dispatch:  # Manual trigger
+  workflow_dispatch:
   schedule:
-    - cron: '0 6 * * *'  # Daily at 6am UTC during tournament
+    - cron: '0 6 * * *'
+
+permissions:
+  contents: write
 
 jobs:
   update:
