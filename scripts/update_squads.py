@@ -394,7 +394,59 @@ def main():
     for i,(t,s) in enumerate(top5,1):
         print(f"  {i}. {t}: {s['score']} ({s.get('players_matched',0)} players matched)")
 
-    # 6. Write output files
+    # 6. Mark confirmed squad players in Supabase
+    print("\nMarking confirmed squad players in Supabase...")
+
+    # First reset all to false
+    supabase.table("wc2026_players").update({"in_squad": False}).neq("id", 0).execute()
+    print("  Reset all in_squad to false")
+
+    # Build set of confirmed player norm names + nation codes
+    confirmed = set()
+    for code, players in squads.items():
+        for p in players:
+            confirmed.add((p["name_norm"], code))
+
+    # Fetch all players from DB
+    all_db = []
+    offset = 0
+    while True:
+        res = supabase.table("wc2026_players").select("id,player,nation").range(offset, offset+999).execute()
+        if not res.data: break
+        all_db.extend(res.data)
+        offset += 1000
+        if len(res.data) < 1000: break
+
+    # Mark matches
+    to_mark = []
+    for p in all_db:
+        if not p.get("player") or not p.get("nation"):
+            continue
+        norm = normalize(p["player"])
+        if (norm, p["nation"]) in confirmed:
+            to_mark.append(p["id"])
+
+    # Also try name-only match for players whose nation code differs
+    marked_ids = set(to_mark)
+    confirmed_names = {n for (n, _) in confirmed}
+    for p in all_db:
+        if p["id"] in marked_ids:
+            continue
+        if p.get("player") and normalize(p["player"]) in confirmed_names:
+            to_mark.append(p["id"])
+            marked_ids.add(p["id"])
+
+    print(f"  Marking {len(to_mark)} players as in_squad=true")
+
+    # Update in batches
+    for i in range(0, len(to_mark), 200):
+        batch_ids = to_mark[i:i+200]
+        for pid in batch_ids:
+            supabase.table("wc2026_players").update({"in_squad": True}).eq("id", pid).execute()
+
+    print(f"  Done marking squad players")
+
+    # 7. Write output files
     os.makedirs("src/data", exist_ok=True)
 
     with open("src/data/prediction_data.json","w") as f:
