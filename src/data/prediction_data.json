@@ -1,0 +1,825 @@
+{
+  "generated_at": "2026-06-06T07:58:46.393695Z",
+  "scores": {
+    "CZE": {
+      "score": 25,
+      "attack": 0,
+      "creativity": 0,
+      "players_matched": 0
+    },
+    "MEX": {
+      "score": 25,
+      "attack": 0,
+      "creativity": 0,
+      "players_matched": 0
+    },
+    "RSA": {
+      "score": 25,
+      "attack": 0,
+      "creativity": 0,
+      "players_matched": 0
+    },
+    "KOR": {
+      "score": 25,
+      "attack": 0,
+      "creativity": 0,
+      "players_matched": 0
+    },
+    "BIH": {
+      "score": 25,
+      "attack": 0,
+      "creativity": 0,
+      "players_matched": 0
+    },
+    "CAN": {
+      "score": 25,
+      "attack": 0,
+      "creativity": 0,
+      "players_matched": 0
+    },
+    "QAT": {
+      "score": 25,
+      "attack": 0,
+      "creativity": 0,
+      "players_matched": 0
+    },
+    "SUI": {
+      "score": 25,
+      "attack": 0,
+      "creativity": 0,
+      "players_matched": 0
+    },
+    "BRA": {
+      "score": 25,
+      "attack": 0,
+      "creativity": 0,
+      "players_matched": 0
+    },
+    "HAI": {
+      "score": 25,
+      "attack": 0,
+      "creativity": 0,
+      "players_matched": 0
+    },
+    "MAR": {
+      "score": 25,
+      "attack": 0,
+      "creativity": 0,
+      "players_matched": 0
+    },
+    "SCO": {
+      "score": 25,
+      "attack": 0,
+      "creativity": 0,
+      "players_matched": 0
+    },
+    "AUS": {
+      "score": 25,
+      "attack": 0,
+      "creativity": 0,
+      "players_matched": 0
+    },
+    "PAR": {
+      "score": 25,
+      "attack": 0,
+      "creativity": 0,
+      "players_matched": 0
+    },
+    "TUR": {
+      "score": 25,
+      "attack": 0,
+      "creativity": 0,
+      "players_matched": 0
+    },
+    "USA": {
+      "score": 25,
+      "attack": 0,
+      "creativity": 0,
+      "players_matched": 0
+    },
+    "CUW": {
+      "score": 25,
+      "attack": 0,
+      "creativity": 0,
+      "players_matched": 0
+    },
+    "ECU": {
+      "score": 25,
+      "attack": 0,
+      "creativity": 0,
+      "players_matched": 0
+    },
+    "GER": {
+      "score": 25,
+      "attack": 0,
+      "creativity": 0,
+      "players_matched": 0
+    },
+    "CIV": {
+      "score": 25,
+      "attack": 0,
+      "creativity": 0,
+      "players_matched": 0
+    },
+    "JPN": {
+      "score": 25,
+      "attack": 0,
+      "creativity": 0,
+      "players_matched": 0
+    },
+    "NED": {
+      "score": 25,
+      "attack": 0,
+      "creativity": 0,
+      "players_matched": 0
+    },
+    "SWE": {
+      "score": 25,
+      "attack": 0,
+      "creativity": 0,
+      "players_matched": 0
+    },
+    "TUN": {
+      "score": 25,
+      "attack": 0,
+      "creativity": 0,
+      "players_matched": 0
+    },
+    "BEL": {
+      "score": 25,
+      "attack": 0,
+      "creativity": 0,
+      "players_matched": 0
+    },
+    "EGY": {
+      "score": 25,
+      "attack": 0,
+      "creativity": 0,
+      "players_matched": 0
+    },
+    "IRN": {
+      "score": 25,
+      "attack": 0,
+      "creativity": 0,
+      "players_matched": 0
+    },
+    "NZL": {
+      "score": 25,
+      "attack": 0,
+      "creativity": 0,
+      "players_matched": 0
+    },
+    "CPV": {
+      "score": 25,
+      "attack": 0,
+      "creativity": 0,
+      "players_matched": 0
+    },
+    "KSA": {
+      "score": 25,
+      "attack": 0,
+      "creativity": 0,
+      "players_matched": 0
+    },
+    "ESP": {
+      "score": 25,
+      "attack": 0,
+      "creativity": 0,
+      "players_matched": 0
+    },
+    "URU": {
+      "score": 25,
+      "attack": 0,
+      "creativity": 0,
+      "players_matched": 0
+    },
+    "FRA": {
+      "score": 25,
+      "attack": 0,
+      "creativity": 0,
+      "players_matched": 0
+    },
+    "IRQ": {
+      "score": 25,
+      "attack": 0,
+      "creativity": 0,
+      "players_matched": 0
+    },
+    "NOR": {
+      "score": 25,
+      "attack": 0,
+      "creativity": 0,
+      "players_matched": 0
+    },
+    "SEN": {
+      "score": 25,
+      "attack": 0,
+      "creativity": 0,
+      "players_matched": 0
+    },
+    "ALG": {
+      "score": 25,
+      "attack": 0,
+      "creativity": 0,
+      "players_matched": 0
+    },
+    "ARG": {
+      "score": 25,
+      "attack": 0,
+      "creativity": 0,
+      "players_matched": 0
+    },
+    "AUT": {
+      "score": 25,
+      "attack": 0,
+      "creativity": 0,
+      "players_matched": 0
+    },
+    "JOR": {
+      "score": 25,
+      "attack": 0,
+      "creativity": 0,
+      "players_matched": 0
+    },
+    "COL": {
+      "score": 25,
+      "attack": 0,
+      "creativity": 0,
+      "players_matched": 0
+    },
+    "COD": {
+      "score": 25,
+      "attack": 0,
+      "creativity": 0,
+      "players_matched": 0
+    },
+    "POR": {
+      "score": 25,
+      "attack": 0,
+      "creativity": 0,
+      "players_matched": 0
+    },
+    "UZB": {
+      "score": 25,
+      "attack": 0,
+      "creativity": 0,
+      "players_matched": 0
+    },
+    "CRO": {
+      "score": 25,
+      "attack": 0,
+      "creativity": 0,
+      "players_matched": 0
+    },
+    "ENG": {
+      "score": 25,
+      "attack": 0,
+      "creativity": 0,
+      "players_matched": 0
+    },
+    "GHA": {
+      "score": 25,
+      "attack": 0,
+      "creativity": 0,
+      "players_matched": 0
+    },
+    "PAN": {
+      "score": 25,
+      "attack": 0,
+      "creativity": 0,
+      "players_matched": 0
+    }
+  },
+  "groups": {
+    "A": [
+      {
+        "team": "Mexico",
+        "pts": 3,
+        "gf": 0,
+        "ga": 0,
+        "score": 0
+      },
+      {
+        "team": "South Africa",
+        "pts": 3,
+        "gf": 0,
+        "ga": 0,
+        "score": 0
+      },
+      {
+        "team": "South Korea",
+        "pts": 3,
+        "gf": 0,
+        "ga": 0,
+        "score": 0
+      },
+      {
+        "team": "Czechia",
+        "pts": 3,
+        "gf": 0,
+        "ga": 0,
+        "score": 0
+      }
+    ],
+    "B": [
+      {
+        "team": "Canada",
+        "pts": 3,
+        "gf": 0,
+        "ga": 0,
+        "score": 0
+      },
+      {
+        "team": "Bosnia & Herzegovina",
+        "pts": 3,
+        "gf": 0,
+        "ga": 0,
+        "score": 0
+      },
+      {
+        "team": "Qatar",
+        "pts": 3,
+        "gf": 0,
+        "ga": 0,
+        "score": 0
+      },
+      {
+        "team": "Switzerland",
+        "pts": 3,
+        "gf": 0,
+        "ga": 0,
+        "score": 0
+      }
+    ],
+    "C": [
+      {
+        "team": "Brazil",
+        "pts": 3,
+        "gf": 0,
+        "ga": 0,
+        "score": 0
+      },
+      {
+        "team": "Morocco",
+        "pts": 3,
+        "gf": 0,
+        "ga": 0,
+        "score": 0
+      },
+      {
+        "team": "Haiti",
+        "pts": 3,
+        "gf": 0,
+        "ga": 0,
+        "score": 0
+      },
+      {
+        "team": "Scotland",
+        "pts": 3,
+        "gf": 0,
+        "ga": 0,
+        "score": 0
+      }
+    ],
+    "D": [
+      {
+        "team": "Paraguay",
+        "pts": 5,
+        "gf": 1,
+        "ga": 0,
+        "score": 0
+      },
+      {
+        "team": "Australia",
+        "pts": 5,
+        "gf": 1,
+        "ga": 0,
+        "score": 0
+      },
+      {
+        "team": "Turkey",
+        "pts": 5,
+        "gf": 1,
+        "ga": 0,
+        "score": 0
+      },
+      {
+        "team": "USA",
+        "pts": 0,
+        "gf": 0,
+        "ga": 3,
+        "score": 25
+      }
+    ],
+    "E": [
+      {
+        "team": "Germany",
+        "pts": 3,
+        "gf": 0,
+        "ga": 0,
+        "score": 0
+      },
+      {
+        "team": "Cura\u00e7ao",
+        "pts": 3,
+        "gf": 0,
+        "ga": 0,
+        "score": 0
+      },
+      {
+        "team": "Ivory Coast",
+        "pts": 3,
+        "gf": 0,
+        "ga": 0,
+        "score": 0
+      },
+      {
+        "team": "Ecuador",
+        "pts": 3,
+        "gf": 0,
+        "ga": 0,
+        "score": 0
+      }
+    ],
+    "F": [
+      {
+        "team": "Netherlands",
+        "pts": 3,
+        "gf": 0,
+        "ga": 0,
+        "score": 0
+      },
+      {
+        "team": "Japan",
+        "pts": 3,
+        "gf": 0,
+        "ga": 0,
+        "score": 0
+      },
+      {
+        "team": "Sweden",
+        "pts": 3,
+        "gf": 0,
+        "ga": 0,
+        "score": 0
+      },
+      {
+        "team": "Tunisia",
+        "pts": 3,
+        "gf": 0,
+        "ga": 0,
+        "score": 0
+      }
+    ],
+    "G": [
+      {
+        "team": "Belgium",
+        "pts": 3,
+        "gf": 0,
+        "ga": 0,
+        "score": 0
+      },
+      {
+        "team": "Egypt",
+        "pts": 3,
+        "gf": 0,
+        "ga": 0,
+        "score": 0
+      },
+      {
+        "team": "Iran",
+        "pts": 3,
+        "gf": 0,
+        "ga": 0,
+        "score": 0
+      },
+      {
+        "team": "New Zealand",
+        "pts": 3,
+        "gf": 0,
+        "ga": 0,
+        "score": 0
+      }
+    ],
+    "H": [
+      {
+        "team": "Spain",
+        "pts": 3,
+        "gf": 0,
+        "ga": 0,
+        "score": 0
+      },
+      {
+        "team": "Cape Verde",
+        "pts": 3,
+        "gf": 0,
+        "ga": 0,
+        "score": 0
+      },
+      {
+        "team": "Saudi Arabia",
+        "pts": 3,
+        "gf": 0,
+        "ga": 0,
+        "score": 0
+      },
+      {
+        "team": "Uruguay",
+        "pts": 3,
+        "gf": 0,
+        "ga": 0,
+        "score": 0
+      }
+    ],
+    "I": [
+      {
+        "team": "France",
+        "pts": 3,
+        "gf": 0,
+        "ga": 0,
+        "score": 0
+      },
+      {
+        "team": "Senegal",
+        "pts": 3,
+        "gf": 0,
+        "ga": 0,
+        "score": 0
+      },
+      {
+        "team": "Iraq",
+        "pts": 3,
+        "gf": 0,
+        "ga": 0,
+        "score": 0
+      },
+      {
+        "team": "Norway",
+        "pts": 3,
+        "gf": 0,
+        "ga": 0,
+        "score": 0
+      }
+    ],
+    "J": [
+      {
+        "team": "Argentina",
+        "pts": 3,
+        "gf": 0,
+        "ga": 0,
+        "score": 0
+      },
+      {
+        "team": "Algeria",
+        "pts": 3,
+        "gf": 0,
+        "ga": 0,
+        "score": 0
+      },
+      {
+        "team": "Austria",
+        "pts": 3,
+        "gf": 0,
+        "ga": 0,
+        "score": 0
+      },
+      {
+        "team": "Jordan",
+        "pts": 3,
+        "gf": 0,
+        "ga": 0,
+        "score": 0
+      }
+    ],
+    "K": [
+      {
+        "team": "Portugal",
+        "pts": 3,
+        "gf": 0,
+        "ga": 0,
+        "score": 0
+      },
+      {
+        "team": "DR Congo",
+        "pts": 3,
+        "gf": 0,
+        "ga": 0,
+        "score": 0
+      },
+      {
+        "team": "Uzbekistan",
+        "pts": 3,
+        "gf": 0,
+        "ga": 0,
+        "score": 0
+      },
+      {
+        "team": "Colombia",
+        "pts": 3,
+        "gf": 0,
+        "ga": 0,
+        "score": 0
+      }
+    ],
+    "L": [
+      {
+        "team": "England",
+        "pts": 3,
+        "gf": 0,
+        "ga": 0,
+        "score": 0
+      },
+      {
+        "team": "Croatia",
+        "pts": 3,
+        "gf": 0,
+        "ga": 0,
+        "score": 0
+      },
+      {
+        "team": "Ghana",
+        "pts": 3,
+        "gf": 0,
+        "ga": 0,
+        "score": 0
+      },
+      {
+        "team": "Panama",
+        "pts": 3,
+        "gf": 0,
+        "ga": 0,
+        "score": 0
+      }
+    ]
+  },
+  "bracket": {
+    "r32": [
+      {
+        "home": "Mexico",
+        "away": "Bosnia & Herzegovina",
+        "winner": "Mexico"
+      },
+      {
+        "home": "Brazil",
+        "away": "Australia",
+        "winner": "Brazil"
+      },
+      {
+        "home": "Germany",
+        "away": "Japan",
+        "winner": "Germany"
+      },
+      {
+        "home": "Belgium",
+        "away": "Cape Verde",
+        "winner": "Belgium"
+      },
+      {
+        "home": "France",
+        "away": "Algeria",
+        "winner": "France"
+      },
+      {
+        "home": "Portugal",
+        "away": "Croatia",
+        "winner": "Portugal"
+      },
+      {
+        "home": "Canada",
+        "away": "South Africa",
+        "winner": "Canada"
+      },
+      {
+        "home": "Paraguay",
+        "away": "Morocco",
+        "winner": "Paraguay"
+      },
+      {
+        "home": "Netherlands",
+        "away": "Cura\u00e7ao",
+        "winner": "Netherlands"
+      },
+      {
+        "home": "Spain",
+        "away": "Egypt",
+        "winner": "Spain"
+      },
+      {
+        "home": "Argentina",
+        "away": "Senegal",
+        "winner": "Argentina"
+      },
+      {
+        "home": "England",
+        "away": "DR Congo",
+        "winner": "England"
+      },
+      {
+        "home": "Turkey",
+        "away": "South Korea",
+        "winner": "Turkey"
+      },
+      {
+        "home": "Qatar",
+        "away": "Haiti",
+        "winner": "Qatar"
+      },
+      {
+        "home": "Ivory Coast",
+        "away": "Sweden",
+        "winner": "Ivory Coast"
+      },
+      {
+        "home": "Iran",
+        "away": "Saudi Arabia",
+        "winner": "Iran"
+      }
+    ],
+    "r16": [
+      {
+        "home": "Mexico",
+        "away": "Brazil",
+        "winner": "Mexico"
+      },
+      {
+        "home": "Germany",
+        "away": "Belgium",
+        "winner": "Germany"
+      },
+      {
+        "home": "France",
+        "away": "Portugal",
+        "winner": "France"
+      },
+      {
+        "home": "Canada",
+        "away": "Paraguay",
+        "winner": "Canada"
+      },
+      {
+        "home": "Netherlands",
+        "away": "Spain",
+        "winner": "Netherlands"
+      },
+      {
+        "home": "Argentina",
+        "away": "England",
+        "winner": "Argentina"
+      },
+      {
+        "home": "Turkey",
+        "away": "Qatar",
+        "winner": "Turkey"
+      },
+      {
+        "home": "Ivory Coast",
+        "away": "Iran",
+        "winner": "Ivory Coast"
+      }
+    ],
+    "qf": [
+      {
+        "home": "Mexico",
+        "away": "Germany",
+        "winner": "Mexico"
+      },
+      {
+        "home": "France",
+        "away": "Canada",
+        "winner": "France"
+      },
+      {
+        "home": "Netherlands",
+        "away": "Argentina",
+        "winner": "Netherlands"
+      },
+      {
+        "home": "Turkey",
+        "away": "Ivory Coast",
+        "winner": "Turkey"
+      }
+    ],
+    "sf": [
+      {
+        "home": "Mexico",
+        "away": "France",
+        "winner": "Mexico"
+      },
+      {
+        "home": "Netherlands",
+        "away": "Turkey",
+        "winner": "Netherlands"
+      }
+    ],
+    "final": {
+      "home": "Mexico",
+      "away": "Netherlands",
+      "winner": "Mexico"
+    },
+    "third": {
+      "home": "France",
+      "away": "Turkey",
+      "winner": "France"
+    }
+  }
+}
