@@ -2,17 +2,18 @@ import { useEffect, useState } from "react"
 import { supabase } from "../lib/supabase"
 
 const NATION_NAMES = {
-  ENG:"England",FRA:"France",ESP:"Spain",GER:"Germany",POR:"Portugal",
-  NED:"Netherlands",BEL:"Belgium",CRO:"Croatia",SUI:"Switzerland",AUT:"Austria",
-  SCO:"Scotland",NOR:"Norway",SWE:"Sweden",TUR:"Turkey",BIH:"Bosnia",
-  CZE:"Czechia",BRA:"Brazil",ARG:"Argentina",COL:"Colombia",URU:"Uruguay",
-  ECU:"Ecuador",PAR:"Paraguay",USA:"USA",MEX:"Mexico",CAN:"Canada",
-  PAN:"Panama",CUW:"Curaçao",HAI:"Haiti",JPN:"Japan",KOR:"S.Korea",
-  AUS:"Australia",KSA:"Saudi Arabia",IRN:"Iran",QAT:"Qatar",JOR:"Jordan",
-  UZB:"Uzbekistan",IRQ:"Iraq",MAR:"Morocco",SEN:"Senegal",NGA:"Nigeria",
-  CMR:"Cameroon",EGY:"Egypt",CIV:"Ivory Coast",CPV:"Cape Verde",COD:"DR Congo",
-  RSA:"South Africa",GHA:"Ghana",NZL:"New Zealand",ALG:"Algeria",TUN:"Tunisia",
-  DEN:"Denmark",VEN:"Venezuela",CHI:"Chile",HON:"Honduras",JAM:"Jamaica",CRC:"Costa Rica",
+  ALG:"Algeria",    ARG:"Argentina",  AUS:"Australia",  AUT:"Austria",
+  BEL:"Belgium",    BIH:"Bosnia",     BRA:"Brazil",     CAN:"Canada",
+  CIV:"Ivory Coast",COD:"DR Congo",   COL:"Colombia",   CPV:"Cape Verde",
+  CRO:"Croatia",    CUW:"Curaçao",    CZE:"Czechia",    ECU:"Ecuador",
+  EGY:"Egypt",      ENG:"England",    ESP:"Spain",      FRA:"France",
+  GER:"Germany",    GHA:"Ghana",      HAI:"Haiti",      IRN:"Iran",
+  IRQ:"Iraq",       JOR:"Jordan",     JPN:"Japan",      KOR:"S.Korea",
+  KSA:"Saudi Arabia",MAR:"Morocco",   MEX:"Mexico",     NED:"Netherlands",
+  NOR:"Norway",     NZL:"New Zealand",PAN:"Panama",     PAR:"Paraguay",
+  POR:"Portugal",   QAT:"Qatar",      RSA:"South Africa",SCO:"Scotland",
+  SEN:"Senegal",    SUI:"Switzerland",SWE:"Sweden",     TUN:"Tunisia",
+  TUR:"Turkey",     URU:"Uruguay",    USA:"USA",        UZB:"Uzbekistan",
 }
 
 const SORT_OPTIONS = [
