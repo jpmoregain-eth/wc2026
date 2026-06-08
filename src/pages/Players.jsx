@@ -9,7 +9,7 @@ const NATION_NAMES = {
   EGY:"Egypt",      ENG:"England",    ESP:"Spain",      FRA:"France",
   GER:"Germany",    GHA:"Ghana",      HAI:"Haiti",      IRN:"Iran",
   IRQ:"Iraq",       JOR:"Jordan",     JPN:"Japan",      KOR:"S.Korea",
-  KSA:"Saudi Arabia",MAR:"Morocco",   MEX:"Mexico",     NED:"Netherlands",
+  KSA:"Saudi Arabia",MAR:"Morocco",  MEX:"Mexico",     NED:"Netherlands",
   NOR:"Norway",     NZL:"New Zealand",PAN:"Panama",     PAR:"Paraguay",
   POR:"Portugal",   QAT:"Qatar",      RSA:"South Africa",SCO:"Scotland",
   SEN:"Senegal",    SUI:"Switzerland",SWE:"Sweden",     TUN:"Tunisia",
@@ -17,13 +17,10 @@ const NATION_NAMES = {
 }
 
 const SORT_OPTIONS = [
-  { value: "goals",           label: "Goals" },
-  { value: "assists",         label: "Assists" },
-  { value: "xg",              label: "xG" },
-  { value: "xa",              label: "xA" },
-  { value: "shots",           label: "Shots" },
-  { value: "shots_on_target", label: "Shots on Target" },
-  { value: "minutes",         label: "Minutes" },
+  { value: "goals",   label: "Goals" },
+  { value: "assists", label: "Assists" },
+  { value: "caps",    label: "Caps" },
+  { value: "age",     label: "Age" },
 ]
 
 const PER = 50
@@ -39,10 +36,10 @@ export default function Players() {
   useEffect(() => {
     setLoading(true)
     let q = supabase
-      .from("wc2026_players")
-      .select("player,nation,squad,position,minutes,goals,assists,xg,xa,shots,shots_on_target")
+      .from("wc2026_national_stats")
+      .select("player,nation,club,caps,goals,assists,age")
       .eq("in_squad", true)
-      .order(sortBy, { ascending: false })
+      .order(sortBy, { ascending: false, nullsFirst: false })
       .range(page * PER, (page + 1) * PER - 1)
 
     if (nation !== "All") q = q.eq("nation", nation)
@@ -54,14 +51,13 @@ export default function Players() {
     })
   }, [nation, sortBy, search, page])
 
-  const fmt = (v, dec = 0) => v == null ? "-" : dec ? v.toFixed(dec) : Math.round(v)
+  const fmt = (v) => v == null ? "-" : Math.round(v)
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-10">
       <h1 className="text-3xl font-extrabold text-white mb-2">Player Stats</h1>
-      <p className="text-slate-400 mb-6">2025–26 club season · Confirmed WC 2026 squads only</p>
+      <p className="text-slate-400 mb-6">WC 2026 qualifying stats · Confirmed 26-man squads only</p>
 
-      {/* Filters */}
       <div className="flex flex-wrap gap-3 mb-6">
         <input
           value={search}
@@ -84,8 +80,6 @@ export default function Players() {
         </select>
       </div>
 
-      {/* Table */}
-
       {loading ? (
         <div className="text-center py-20 text-slate-400">Loading...</div>
       ) : (
@@ -98,14 +92,10 @@ export default function Players() {
                   <th className="text-left px-4 py-3">Player</th>
                   <th className="text-left px-4 py-3">Nation</th>
                   <th className="text-left px-4 py-3">Club</th>
-                  <th className="px-3 py-3">Pos</th>
-                  <th className="px-3 py-3">Min</th>
+                  <th className="px-3 py-3">Age</th>
+                  <th className="px-3 py-3">Caps</th>
                   <th className="px-3 py-3">Gls</th>
                   <th className="px-3 py-3">Ast</th>
-                  <th className="px-3 py-3">xG</th>
-                  <th className="px-3 py-3">xA</th>
-                  <th className="px-3 py-3">Sh</th>
-                  <th className="px-3 py-3">SoT</th>
                 </tr>
               </thead>
               <tbody>
@@ -114,35 +104,27 @@ export default function Players() {
                     <td className="px-4 py-2.5 text-slate-500 text-xs">{page * PER + i + 1}</td>
                     <td className="px-4 py-2.5 font-medium text-white">{p.player}</td>
                     <td className="px-4 py-2.5">
-                      <span className="text-xs bg-blue-900/50 text-yellow-400 px-2 py-0.5 rounded font-mono">
-                        {p.nation}
-                      </span>
+                      <span className="text-xs bg-blue-900/50 text-yellow-400 px-2 py-0.5 rounded font-mono">{p.nation}</span>
                     </td>
-                    <td className="px-4 py-2.5 text-slate-400 text-xs">{p.squad}</td>
-                    <td className="px-3 py-2.5 text-center text-slate-400 text-xs">{p.position}</td>
-                    <td className="px-3 py-2.5 text-center text-slate-300 text-xs">{fmt(p.minutes)}</td>
+                    <td className="px-4 py-2.5 text-slate-400 text-xs">{p.club || "-"}</td>
+                    <td className="px-3 py-2.5 text-center text-slate-300">{fmt(p.age)}</td>
+                    <td className="px-3 py-2.5 text-center text-slate-300">{fmt(p.caps)}</td>
                     <td className="px-3 py-2.5 text-center text-white font-bold">{fmt(p.goals)}</td>
                     <td className="px-3 py-2.5 text-center text-slate-300">{fmt(p.assists)}</td>
-                    <td className="px-3 py-2.5 text-center text-yellow-400 font-semibold">{fmt(p.xg, 1)}</td>
-                    <td className="px-3 py-2.5 text-center text-slate-300">{fmt(p.xa, 1)}</td>
-                    <td className="px-3 py-2.5 text-center text-slate-300">{fmt(p.shots)}</td>
-                    <td className="px-3 py-2.5 text-center text-slate-300">{fmt(p.shots_on_target)}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
-
+          {players.length === 0 && (
+            <div className="text-center py-10 text-slate-400">No players found.</div>
+          )}
           <div className="flex justify-between items-center mt-4">
-            <button onClick={() => setPage(p => Math.max(0, p - 1))} disabled={page === 0}
-              className="px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-sm text-slate-300 hover:bg-white/10 disabled:opacity-30">
-              ← Prev
-            </button>
-            <span className="text-slate-400 text-sm">Page {page + 1}</span>
-            <button onClick={() => setPage(p => p + 1)} disabled={players.length < PER}
-              className="px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-sm text-slate-300 hover:bg-white/10 disabled:opacity-30">
-              Next →
-            </button>
+            <button onClick={() => setPage(p => Math.max(0, p-1))} disabled={page===0}
+              className="px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-sm text-slate-300 hover:bg-white/10 disabled:opacity-30">← Prev</button>
+            <span className="text-slate-400 text-sm">Page {page+1}</span>
+            <button onClick={() => setPage(p => p+1)} disabled={players.length<PER}
+              className="px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-sm text-slate-300 hover:bg-white/10 disabled:opacity-30">Next →</button>
           </div>
         </>
       )}
