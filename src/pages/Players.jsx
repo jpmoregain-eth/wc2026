@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useMemo } from "react"
 import { supabase } from "../lib/supabase"
+import SQUADS from "../data/squads.json"
 
 const NATION_NAMES = {
   ALG:"Algeria",    ARG:"Argentina",  AUS:"Australia",  AUT:"Austria",
@@ -16,6 +17,13 @@ const NATION_NAMES = {
   TUR:"Turkey",     URU:"Uruguay",    USA:"USA",        UZB:"Uzbekistan",
 }
 
+const POS_COLORS = {
+  GK: "bg-yellow-500/20 text-yellow-300",
+  DF: "bg-blue-500/20 text-blue-300",
+  MF: "bg-green-500/20 text-green-300",
+  FW: "bg-red-500/20 text-red-300",
+}
+
 const SORT_OPTIONS = [
   { value: "goals",   label: "Goals" },
   { value: "assists", label: "Assists" },
@@ -26,18 +34,32 @@ const SORT_OPTIONS = [
 const PER = 50
 
 export default function Players() {
-  const [players, setPlayers]   = useState([])
-  const [loading, setLoading]   = useState(true)
-  const [search, setSearch]     = useState("")
-  const [nation, setNation]     = useState("All")
-  const [sortBy, setSortBy]     = useState("goals")
-  const [page, setPage]         = useState(0)
+  const [players, setPlayers] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [search, setSearch]   = useState("")
+  const [nation, setNation]   = useState("All")
+  const [sortBy, setSortBy]   = useState("goals")
+  const [page, setPage]       = useState(0)
+
+  // Build position lookup from squads.json: { "PlayerName_CODE": "GK" }
+  const posLookup = useMemo(() => {
+    const map = {}
+    for (const [code, players] of Object.entries(SQUADS)) {
+      for (const p of players) {
+        map[`${p.name}__${code}`] = p.position
+      }
+    }
+    return map
+  }, [])
+
+  const getPos = (name, nation) =>
+    posLookup[`${name}__${nation}`] || null
 
   useEffect(() => {
     setLoading(true)
     let q = supabase
       .from("wc2026_national_stats")
-      .select("player,nation,club,caps,goals,assists,age")
+      .select("player,nation,caps,goals,assists,age")
       .eq("in_squad", true)
       .order(sortBy, { ascending: false, nullsFirst: false })
       .range(page * PER, (page + 1) * PER - 1)
@@ -56,8 +78,9 @@ export default function Players() {
   return (
     <div className="max-w-6xl mx-auto px-4 py-10">
       <h1 className="text-3xl font-extrabold text-white mb-2">Player Stats</h1>
-      <p className="text-slate-400 mb-6">WC 2026 qualifying stats · Confirmed 26-man squads only</p>
+      <p className="text-slate-400 mb-6">WC 2026 qualifying stats · Confirmed 26-man squads</p>
 
+      {/* Filters */}
       <div className="flex flex-wrap gap-3 mb-6">
         <input
           value={search}
@@ -80,6 +103,13 @@ export default function Players() {
         </select>
       </div>
 
+      {/* Position legend */}
+      <div className="flex gap-3 mb-5 text-xs">
+        {Object.entries(POS_COLORS).map(([pos, cls]) => (
+          <span key={pos} className={`px-2 py-0.5 rounded font-medium ${cls}`}>{pos}</span>
+        ))}
+      </div>
+
       {loading ? (
         <div className="text-center py-20 text-slate-400">Loading...</div>
       ) : (
@@ -91,7 +121,7 @@ export default function Players() {
                   <th className="text-left px-4 py-3">#</th>
                   <th className="text-left px-4 py-3">Player</th>
                   <th className="text-left px-4 py-3">Nation</th>
-                  <th className="text-left px-4 py-3">Club</th>
+                  <th className="px-3 py-3">Pos</th>
                   <th className="px-3 py-3">Age</th>
                   <th className="px-3 py-3">Caps</th>
                   <th className="px-3 py-3">Gls</th>
@@ -99,32 +129,51 @@ export default function Players() {
                 </tr>
               </thead>
               <tbody>
-                {players.map((p, i) => (
-                  <tr key={i} className="border-t border-white/5 hover:bg-white/5 transition-colors">
-                    <td className="px-4 py-2.5 text-slate-500 text-xs">{page * PER + i + 1}</td>
-                    <td className="px-4 py-2.5 font-medium text-white">{p.player}</td>
-                    <td className="px-4 py-2.5">
-                      <span className="text-xs bg-blue-900/50 text-yellow-400 px-2 py-0.5 rounded font-mono">{p.nation}</span>
-                    </td>
-                    <td className="px-4 py-2.5 text-slate-400 text-xs">{p.club || "-"}</td>
-                    <td className="px-3 py-2.5 text-center text-slate-300">{fmt(p.age)}</td>
-                    <td className="px-3 py-2.5 text-center text-slate-300">{fmt(p.caps)}</td>
-                    <td className="px-3 py-2.5 text-center text-white font-bold">{fmt(p.goals)}</td>
-                    <td className="px-3 py-2.5 text-center text-slate-300">{fmt(p.assists)}</td>
-                  </tr>
-                ))}
+                {players.map((p, i) => {
+                  const pos = getPos(p.player, p.nation)
+                  return (
+                    <tr key={i} className="border-t border-white/5 hover:bg-white/5 transition-colors">
+                      <td className="px-4 py-2.5 text-slate-500 text-xs">{page * PER + i + 1}</td>
+                      <td className="px-4 py-2.5 font-medium text-white">{p.player}</td>
+                      <td className="px-4 py-2.5">
+                        <span className="text-xs bg-blue-900/50 text-yellow-400 px-2 py-0.5 rounded font-mono">
+                          {p.nation}
+                        </span>
+                      </td>
+                      <td className="px-3 py-2.5 text-center">
+                        {pos ? (
+                          <span className={`text-xs px-1.5 py-0.5 rounded font-medium ${POS_COLORS[pos] || "text-slate-400"}`}>
+                            {pos}
+                          </span>
+                        ) : (
+                          <span className="text-slate-600 text-xs">-</span>
+                        )}
+                      </td>
+                      <td className="px-3 py-2.5 text-center text-slate-300">{fmt(p.age)}</td>
+                      <td className="px-3 py-2.5 text-center text-slate-300">{fmt(p.caps)}</td>
+                      <td className="px-3 py-2.5 text-center text-white font-bold">{fmt(p.goals)}</td>
+                      <td className="px-3 py-2.5 text-center text-slate-300">{fmt(p.assists)}</td>
+                    </tr>
+                  )
+                })}
               </tbody>
             </table>
           </div>
+
           {players.length === 0 && (
             <div className="text-center py-10 text-slate-400">No players found.</div>
           )}
+
           <div className="flex justify-between items-center mt-4">
             <button onClick={() => setPage(p => Math.max(0, p-1))} disabled={page===0}
-              className="px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-sm text-slate-300 hover:bg-white/10 disabled:opacity-30">← Prev</button>
+              className="px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-sm text-slate-300 hover:bg-white/10 disabled:opacity-30">
+              ← Prev
+            </button>
             <span className="text-slate-400 text-sm">Page {page+1}</span>
             <button onClick={() => setPage(p => p+1)} disabled={players.length<PER}
-              className="px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-sm text-slate-300 hover:bg-white/10 disabled:opacity-30">Next →</button>
+              className="px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-sm text-slate-300 hover:bg-white/10 disabled:opacity-30">
+              Next →
+            </button>
           </div>
         </>
       )}
