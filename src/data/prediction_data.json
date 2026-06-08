@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-07T17:04:25.437532Z",
+  "generated_at": "2026-06-08T10:24:24.617679Z",
   "scores": {
     "Czechia": {
       "score": 56.5,
@@ -50,10 +50,10 @@
       "players_matched": 22
     },
     "Brazil": {
-      "score": 70.4,
-      "attack": 2.16,
+      "score": 73.3,
+      "attack": 2.35,
       "creativity": 1.06,
-      "players_matched": 21
+      "players_matched": 20
     },
     "Haiti": {
       "score": 32.8,
@@ -95,7 +95,7 @@
       "score": 67.2,
       "attack": 2.13,
       "creativity": 1.05,
-      "players_matched": 22
+      "players_matched": 23
     },
     "Cura\u00e7ao": {
       "score": 22.2,
@@ -357,7 +357,7 @@
         "pts": 9,
         "gf": 3,
         "ga": 0,
-        "score": 70.4
+        "score": 73.3
       },
       {
         "team": "Scotland",
