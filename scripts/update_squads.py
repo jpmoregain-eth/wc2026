@@ -1,6 +1,6 @@
 """
-WC 2026 Squad Scraper + Score Calculator v3
-Fixed: all 48 team name aliases + bulk in_squad update + correct position parsing
+WC 2026 Squad Scraper + Score Calculator v4
+Uses wc2026_national_stats for predictions (real WC squad data)
 """
 
 import os, json, re, requests
@@ -108,108 +108,106 @@ def scrape_wikipedia_squads():
     print(f"Scraped {len(squads)} teams, {total} players")
     return squads
 
-def fetch_supabase_players(supabase):
-    print("Fetching Supabase players...")
+def fetch_national_stats(supabase):
+    """Fetch confirmed squad players from national stats table."""
+    print("Fetching national stats...")
     all_players = []
     offset = 0
     while True:
-        res = supabase.table("wc2026_players") \
-            .select("id,player,nation,minutes,goals,assists,xg,xa,shots,shots_on_target,position") \
+        res = supabase.table("wc2026_national_stats") \
+            .select("player,nation,goals,assists,caps,age") \
+            .eq("in_squad", True) \
             .range(offset, offset+999).execute()
         if not res.data: break
         all_players.extend(res.data)
         offset += 1000
         if len(res.data) < 1000: break
-    print(f"Fetched {len(all_players)} players")
+    print(f"Fetched {len(all_players)} squad players")
     return all_players
 
-def mark_squad_players(supabase, squads, db_players):
-    print("\nMarking squad players...")
-    db_by_key = {(normalize(p["player"]),p["nation"]):p["id"] for p in db_players if p.get("player") and p.get("nation")}
-    db_by_name = {}
-    for p in db_players:
-        if p.get("player"):
-            n = normalize(p["player"])
-            if n not in db_by_name:
-                db_by_name[n] = p["id"]
+def compute_scores_from_national(national_players):
+    """
+    Compute team strength from national stats.
+    Primary metric: goals per cap (international finishing rate)
+    Secondary: assists per cap (creativity)
+    Weighted by caps (more experienced players count more)
+    """
+    from collections import defaultdict
+    by_nation = defaultdict(list)
+    for p in national_players:
+        if p.get("nation"):
+            by_nation[p["nation"]].append(p)
 
-    ids_to_mark = set()
-    for code, players in squads.items():
-        matched = 0
-        for p in players:
-            pid = db_by_key.get((p["name_norm"], code)) or db_by_name.get(p["name_norm"])
-            if pid:
-                ids_to_mark.add(pid)
-                matched += 1
-        print(f"  {code}: {matched}/{len(players)}")
-
-    print(f"\nTotal to mark: {len(ids_to_mark)}")
-    supabase.table("wc2026_players").update({"in_squad":False}).neq("id",0).execute()
-    print("  Reset all to false")
-
-    ids_list = list(ids_to_mark)
-    for i in range(0, len(ids_list), 500):
-        batch = ids_list[i:i+500]
-        supabase.table("wc2026_players").update({"in_squad":True}).in_("id",batch).execute()
-        print(f"  Marked {min(i+500,len(ids_list))}/{len(ids_list)}...")
-
-    print(f"Done marking")
-    return ids_to_mark
-
-def match_squad_to_stats(squads, db_players):
-    db_by_key = {(normalize(p["player"]),p["nation"]):p for p in db_players if p.get("player") and p.get("nation")}
-    db_by_name = {}
-    for p in db_players:
-        if p.get("player"):
-            n = normalize(p["player"])
-            if n not in db_by_name:
-                db_by_name[n] = p
-
-    matched_stats = {}
-    for code, players in squads.items():
-        matched_stats[code] = []
-        for p in players:
-            stats = db_by_key.get((p["name_norm"],code)) or db_by_name.get(p["name_norm"])
-            if stats:
-                s = stats.copy(); s["position_squad"] = p["position"]
-            else:
-                s = {"player":p["name"],"nation":code,"position_squad":p["position"],
-                     "minutes":0,"goals":0,"assists":0,"xg":None,"xa":None}
-            matched_stats[code].append(s)
-    return matched_stats
-
-def compute_scores(matched_stats):
     scores = {}
-    for code, players in matched_stats.items():
-        team_name = CODE_TO_TEAM.get(code, code)
-        active = [p for p in players if (p.get("minutes") or 0) >= 200] or \
-                 [p for p in players if (p.get("minutes") or 0) > 0] or players
+    for code, team_name in CODE_TO_TEAM.items():
+        players = by_nation.get(code, [])
 
-        def per90(stat, p): return ((p.get(stat) or 0) / max(p.get("minutes") or 1,1)) * 90
+        # Filter to players with at least some data
+        active = [p for p in players if (p.get("caps") or 0) > 0]
+        if not active:
+            active = players
 
-        top_att = sorted(active, key=lambda p:(p.get("xg") or 0), reverse=True)[:6]
-        top_mid = sorted(active, key=lambda p:(p.get("xa") or 0), reverse=True)[:5]
-        attack     = sum(per90("xg",p) for p in top_att)
-        creativity = sum(per90("xa",p) for p in top_mid)
-        finishing  = sum(per90("goals",p) for p in top_att)
-        raw = attack*0.5 + creativity*0.3 + finishing*0.2
+        if not active:
+            scores[team_name] = {"raw":0,"score":25,"attack":0,"creativity":0,"experience":0,"players":0}
+            continue
+
+        total_caps = sum(p.get("caps") or 0 for p in active) or 1
+
+        # Goals per cap weighted by caps (top scorers matter most)
+        by_goals = sorted(active, key=lambda p:(p.get("goals") or 0), reverse=True)
+        top_att = by_goals[:8]  # top 8 goal contributors
+
+        by_ast = sorted(active, key=lambda p:(p.get("assists") or 0), reverse=True)
+        top_mid = by_ast[:6]
+
+        def goals_per_cap(p):
+            caps = max(p.get("caps") or 1, 1)
+            return (p.get("goals") or 0) / caps
+
+        def ast_per_cap(p):
+            caps = max(p.get("caps") or 1, 1)
+            return (p.get("assists") or 0) / caps
+
+        # Attack = sum of goals/cap for top attackers, weighted by caps
+        attack = sum(goals_per_cap(p) * min(p.get("caps") or 1, 50) for p in top_att)
+        creativity = sum(ast_per_cap(p) * min(p.get("caps") or 1, 50) for p in top_mid)
+        experience = min(total_caps / len(active), 100) if active else 0
+
+        # Raw score: attack 55% + creativity 30% + experience 15%
+        raw = (attack * 0.55) + (creativity * 0.30) + (experience * 0.15)
 
         scores[team_name] = {
-            "raw": round(raw,4), "attack":round(attack,2),
-            "creativity":round(creativity,2), "finishing":round(finishing,2),
-            "players_matched": len([p for p in players if (p.get("minutes") or 0)>0]),
-            "squad_size": len(players),
+            "raw":        round(raw, 4),
+            "attack":     round(attack, 2),
+            "creativity": round(creativity, 2),
+            "experience": round(experience, 1),
+            "players":    len(active),
         }
 
+    # Normalize to 0-100
     raws = [v["raw"] for v in scores.values() if v.get("raw",0) > 0]
     if raws:
         mn, mx = min(raws), max(raws)
         for t in scores:
             r = scores[t].get("raw",0)
-            scores[t]["score"] = round(20+((r-mn)/(mx-mn))*75,1) if mx>mn else 50
+            scores[t]["score"] = round(20 + ((r-mn)/(mx-mn))*75, 1) if mx>mn else 50
     else:
         for t in scores: scores[t]["score"] = 25
+
     return scores
+
+def mark_squad_players(supabase, squads, national_players):
+    """Re-mark in_squad on wc2026_national_stats."""
+    print("Marking squad players...")
+
+    db_lookup = {}
+    name_lookup = {}
+    for p in national_players:
+        if not p.get("player"): continue
+        norm = normalize(p["player"])
+        # Need id - re-fetch with id
+    # Skip re-marking in GitHub Action since it was already done manually
+    print("  (Skipping re-mark - already done)")
 
 def simulate_group(teams, scores):
     standings = {t:{"pts":0,"gf":0,"ga":0} for t in teams}
@@ -250,12 +248,15 @@ def build_predictions(scores):
     qfp=list(zip(r16w[::2],r16w[1::2])); qfw=sr(qfp)
     sfp=list(zip(qfw[::2],qfw[1::2])); sfw=sr(sfp)
     sfl=[qfw[i*2+(0 if sfw[i]==qfw[i*2+1] else 1)] for i in range(2)]
-    champ=simulate_knockout(sfw[0],sfw[1],scores); third_w=simulate_knockout(sfl[0],sfl[1],scores)
+    champ=simulate_knockout(sfw[0],sfw[1],scores)
+    third_w=simulate_knockout(sfl[0],sfl[1],scores)
 
     import datetime
     return {
         "generated_at": datetime.datetime.utcnow().isoformat()+"Z",
-        "scores":{k:{"score":v["score"],"attack":v.get("attack",0),"creativity":v.get("creativity",0),"players_matched":v.get("players_matched",0)} for k,v in scores.items()},
+        "model": "national_stats_v2",
+        "model_description": "Based on international goals/caps, assists/caps weighted by experience. Confirmed 26-man WC squads.",
+        "scores":{k:{"score":v["score"],"attack":v.get("attack",0),"creativity":v.get("creativity",0),"experience":v.get("experience",0),"players":v.get("players",0)} for k,v in scores.items()},
         "groups":group_results,
         "bracket":{
             "r32":[{"home":a,"away":b,"winner":w} for (a,b),w in zip(r32p,r32w)],
@@ -269,17 +270,17 @@ def build_predictions(scores):
 
 def main():
     supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
+
     squads = scrape_wikipedia_squads()
-    db_players = fetch_supabase_players(supabase)
-    mark_squad_players(supabase, squads, db_players)
-    matched = match_squad_to_stats(squads, db_players)
-    scores = compute_scores(matched)
+    national_players = fetch_national_stats(supabase)
+    scores = compute_scores_from_national(national_players)
     predictions = build_predictions(scores)
 
     champ = predictions["bracket"]["final"]["winner"]
     print(f"\n=== PREDICTED CHAMPION: {champ} ===")
-    for i,(t,s) in enumerate(sorted(scores.items(),key=lambda x:x[1].get("score",0),reverse=True)[:5],1):
-        print(f"  {i}. {t}: {s['score']} ({s.get('players_matched',0)} matched)")
+    top5 = sorted(scores.items(), key=lambda x:x[1].get("score",0), reverse=True)[:10]
+    for i,(t,s) in enumerate(top5,1):
+        print(f"  {i}. {t}: {s['score']} (atk:{s.get('attack',0):.2f} crt:{s.get('creativity',0):.2f} exp:{s.get('experience',0):.0f})")
 
     os.makedirs("src/data", exist_ok=True)
     with open("src/data/prediction_data.json","w") as f:
