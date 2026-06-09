@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-08T17:13:16.788453Z",
+  "generated_at": "2026-06-09T01:31:40.351175Z",
   "model": "national_stats_v2",
   "model_description": "Based on international goals/caps, assists/caps weighted by experience. Confirmed 26-man WC squads.",
   "scores": {
@@ -46,11 +46,11 @@
       "players": 8
     },
     "Qatar": {
-      "score": 71.7,
-      "attack": 21.0,
-      "creativity": 15.0,
+      "score": 76.0,
+      "attack": 23.0,
+      "creativity": 16.0,
       "experience": 8.1,
-      "players": 16
+      "players": 17
     },
     "Switzerland": {
       "score": 55.2,
@@ -147,7 +147,7 @@
       "score": 89.3,
       "attack": 31.0,
       "creativity": 16.0,
-      "experience": 7.2,
+      "experience": 7.0,
       "players": 20
     },
     "Netherlands": {
@@ -203,7 +203,7 @@
       "score": 51.0,
       "attack": 14.0,
       "creativity": 7.0,
-      "experience": 5.6,
+      "experience": 5.5,
       "players": 22
     },
     "Saudi Arabia": {
@@ -284,11 +284,11 @@
       "players": 15
     },
     "Colombia": {
-      "score": 74.0,
+      "score": 73.8,
       "attack": 21.0,
       "creativity": 17.0,
-      "experience": 9.1,
-      "players": 23
+      "experience": 8.8,
+      "players": 24
     },
     "DR Congo": {
       "score": 20.0,
@@ -326,18 +326,18 @@
       "players": 23
     },
     "Ghana": {
-      "score": 59.7,
-      "attack": 16.0,
+      "score": 61.5,
+      "attack": 17.0,
       "creativity": 13.0,
-      "experience": 4.9,
+      "experience": 5.1,
       "players": 18
     },
     "Panama": {
-      "score": 55.5,
+      "score": 53.6,
       "attack": 15.0,
-      "creativity": 10.0,
-      "experience": 5.5,
-      "players": 24
+      "creativity": 8.0,
+      "experience": 5.4,
+      "players": 23
     }
   },
   "groups": {
@@ -377,7 +377,7 @@
         "pts": 9,
         "gf": 3,
         "ga": 0,
-        "score": 71.7
+        "score": 76.0
       },
       {
         "team": "Switzerland",
@@ -647,7 +647,7 @@
         "pts": 9,
         "gf": 3,
         "ga": 0,
-        "score": 74.0
+        "score": 73.8
       },
       {
         "team": "Uzbekistan",
@@ -677,7 +677,7 @@
         "pts": 5,
         "gf": 1,
         "ga": 0,
-        "score": 59.7
+        "score": 61.5
       },
       {
         "team": "England",
@@ -691,7 +691,7 @@
         "pts": 5,
         "gf": 1,
         "ga": 0,
-        "score": 55.5
+        "score": 53.6
       },
       {
         "team": "Croatia",
