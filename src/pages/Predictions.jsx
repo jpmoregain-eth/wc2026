@@ -52,9 +52,76 @@ function MatchCard({ home, away, winner, dim }) {
   )
 }
 
-function GroupCard({ letter, teams }) {
+const DRAW_THRESHOLD = 8
+
+function getResult(homeScore, awayScore) {
+  const diff = homeScore - awayScore
+  if (Math.abs(diff) <= DRAW_THRESHOLD) return "D"
+  return diff > 0 ? "W" : "L"
+}
+
+function generateGroupMatches(teams) {
+  const matches = []
+  for (let i = 0; i < teams.length; i++) {
+    for (let j = i + 1; j < teams.length; j++) {
+      const home = teams[i]
+      const away = teams[j]
+      const result = getResult(home.score, away.score)
+      matches.push({ home, away, result })
+    }
+  }
+  return matches
+}
+
+function GroupMatchesDialog({ letter, teams, onClose }) {
+  const matches = generateGroupMatches(teams)
   return (
-    <div className="bg-white/5 border border-white/10 rounded-xl overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={onClose}>
+      <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
+      <div
+        className="relative bg-[#0f1f3d] border border-white/10 rounded-2xl p-6 w-full max-w-md shadow-2xl"
+        onClick={e => e.stopPropagation()}
+      >
+        <div className="flex items-center gap-3 mb-5">
+          <span className="bg-yellow-400 text-blue-900 font-extrabold text-sm w-7 h-7 rounded flex items-center justify-center">{letter}</span>
+          <h3 className="text-white font-bold text-base">Group {letter} — Predicted Matches</h3>
+          <button onClick={onClose} className="ml-auto text-slate-500 hover:text-white text-lg leading-none">✕</button>
+        </div>
+        <div className="flex flex-col gap-3">
+          {matches.map(({ home, away, result }, i) => (
+            <div key={i} className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 flex items-center gap-3">
+              <div className="flex items-center gap-2 flex-1 min-w-0">
+                <span className="text-lg">{FLAG_EMOJI[home.team] || "🏳️"}</span>
+                <span className="text-white text-sm font-medium truncate">{home.team}</span>
+              </div>
+              <div className="flex items-center gap-1.5 shrink-0">
+                <span className={`text-xs font-bold px-2 py-0.5 rounded ${result === "W" ? "bg-green-500/20 text-green-400" : result === "D" ? "bg-slate-500/20 text-slate-400" : "bg-red-500/20 text-red-400"}`}>
+                  {result === "W" ? "WIN" : result === "D" ? "DRAW" : "LOSS"}
+                </span>
+                <span className="text-slate-600 text-xs">vs</span>
+                <span className={`text-xs font-bold px-2 py-0.5 rounded ${result === "L" ? "bg-green-500/20 text-green-400" : result === "D" ? "bg-slate-500/20 text-slate-400" : "bg-red-500/20 text-red-400"}`}>
+                  {result === "L" ? "WIN" : result === "D" ? "DRAW" : "LOSS"}
+                </span>
+              </div>
+              <div className="flex items-center gap-2 flex-1 min-w-0 justify-end">
+                <span className="text-white text-sm font-medium truncate text-right">{away.team}</span>
+                <span className="text-lg">{FLAG_EMOJI[away.team] || "🏳️"}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+        <p className="text-slate-600 text-xs mt-4 text-center">Draw when strength scores are within {DRAW_THRESHOLD} pts</p>
+      </div>
+    </div>
+  )
+}
+
+function GroupCard({ letter, teams }) {
+  const [showDialog, setShowDialog] = useState(false)
+  return (
+    <>
+    {showDialog && <GroupMatchesDialog letter={letter} teams={teams} onClose={() => setShowDialog(false)} />}
+    <div className="bg-white/5 border border-white/10 rounded-xl overflow-hidden cursor-pointer hover:border-yellow-400/40 transition-colors" onClick={() => setShowDialog(true)}>
       <div className="bg-[#1a3c6e] px-4 py-2.5 flex items-center gap-2">
         <span className="bg-yellow-400 text-blue-900 font-extrabold text-sm w-7 h-7 rounded flex items-center justify-center">{letter}</span>
         <span className="text-white font-semibold text-sm">Group {letter}</span>
@@ -90,9 +157,10 @@ function GroupCard({ letter, teams }) {
       </table>
       <div className="px-3 py-1.5 text-slate-600 text-xs border-t border-white/5">
         <span className="inline-block w-2 h-2 bg-green-500 rounded-sm mr-1"/>
-        Top 2 advance to Round of 32
+        Top 2 advance · Click for match predictions
       </div>
     </div>
+    </>
   )
 }
 
